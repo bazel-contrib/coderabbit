@@ -38,23 +38,107 @@ is off. Saving the UI form stores default values too; use its YAML editor to
 save only the settings you intend. Enforced global overrides take precedence
 over these layers. See [inheritance and merging](https://docs.coderabbit.ai/configuration/inheritance-and-merging).
 
-### Disable CodeRabbit completely for your repository
+### Opt out while keeping GitHub App access
 
-Ask a `bazel-contrib` organization owner to remove your repository from the
-CodeRabbit GitHub App's repository access:
+Commit this V2 `.coderabbit.yaml` at your repository root. Replace any existing
+configuration with it; `inheritance: false` prevents shared and web UI settings
+from filling in values. No GitHub App access changes are needed.
 
-1. Open the organization's GitHub **Settings → GitHub Apps → CodeRabbit → Configure**.
-2. Under **Repository access**, remove your repository from the selected list
-   and save. If access is set to **All repositories**, the owner must switch to
-   **Only select repositories**, preserving access for the other participating
-   repositories, including `bazel-contrib/coderabbit`.
+```yaml
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+inheritance: false
+reviews:
+  auto_review:
+    enabled: false
+    auto_incremental_review: false
+    description_keyword: ""
+    labels: []
+  path_filters:
+    - "!**/*"
+  disable_cache: true
+  high_level_summary: false
+  review_status: false
+  review_progress: false
+  commit_status: false
+  in_progress_fortune: false
+  suggested_labels: false
+  auto_apply_labels: false
+  suggested_reviewers: false
+  auto_assign_reviewers: false
+  auto_approvals:
+    enabled: false
+  slop_detection:
+    enabled: false
+  post_merge_actions: []
+  pre_merge_checks:
+    title:
+      mode: "off"
+    description:
+      mode: "off"
+    issue_assessment:
+      mode: "off"
+    custom_checks: []
+  finishing_touches:
+    unit_tests:
+      enabled: false
+    simplify:
+      enabled: false
+    autofix:
+      enabled: false
+    fix_ci:
+      enabled: false
+    resolve_merge_conflict:
+      enabled: false
+    custom: []
+chat:
+  auto_reply: false
+  allow_non_org_members: false
+  integrations:
+    jira:
+      usage: disabled
+    linear:
+      usage: disabled
+knowledge_base:
+  opt_out: true
+  automatic_linking_mode: disabled
+  linked_repositories: []
+  code_guidelines:
+    enabled: false
+  jira:
+    usage: disabled
+  linear:
+    usage: disabled
+  web_search:
+    enabled: false
+  mcp:
+    usage: disabled
+issue_enrichment:
+  auto_enrich:
+    enabled: false
+  planning:
+    enabled: false
+    auto_planning:
+      enabled: false
+  labeling:
+    auto_apply_labels: false
+```
 
-Do not suspend or uninstall the organization's app to disable a single repo;
-those actions affect the whole organization. See
-[GitHub's repository access instructions](https://docs.github.com/en/apps/using-github-apps/reviewing-and-modifying-installed-github-apps#modifying-repository-access).
+This disables automatic reviews, excludes all review files, suppresses review
+status/summary output, and disables the listed chat, issue, and code-writing
+features. Knowledge base opt-out also permanently erases this repository's
+stored learnings after the next default-branch merge on GitHub Cloud.
+See the [V2 settings reference](https://docs.coderabbit.ai/reference/configuration).
 
-Setting `reviews.auto_review.enabled: false` only disables automatic reviews;
-it does not remove app access or disable all CodeRabbit interactions.
+Merge the file into your default branch. Existing PRs may need their branches
+updated, depending on the repository's
+[configuration source](https://docs.coderabbit.ai/configuration/file).
+If CodeRabbit is a required merge check, arrange to remove that requirement
+before disabling its status output.
+
+YAML has no master off-switch: explicit mentions/commands can still receive
+responses, app access remains, and separately configured products or automations
+are outside this file's scope. Enforced global overrides can also override
+these settings.
 
 ### Extend the shared configuration
 
