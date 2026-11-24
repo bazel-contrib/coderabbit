@@ -1,19 +1,13 @@
 # bazel-contrib CodeRabbit configuration
 
 [.coderabbit.yaml](.coderabbit.yaml) holds the shared CodeRabbit defaults for
-`bazel-contrib` repositories: English reviews, the `chill` review profile, and
-automatic reviews enabled. Other settings retain CodeRabbit's defaults.
+`bazel-contrib` repositories.
 
 ## Setup
 
 Following [CodeRabbit's central configuration documentation](https://docs.coderabbit.ai/configuration/central):
 
-1. Keep this repository named exactly `bazel-contrib/coderabbit`.
-2. Keep `.coderabbit.yaml` at the root of the default branch (`main`).
-3. Grant the CodeRabbit GitHub App access to this repository so it can read the
-   configuration. CodeRabbit also needs access to repositories it reviews.
-
-Central configuration requires schema V2. Do not migrate this file to V3.
+Note, Central configuration requires schema V2. Do not migrate this file to V3.
 
 ## Repository configuration
 
