@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# Shared defaults for bazel-contrib. Central configuration requires schema V2.
+language: en-US
+reviews:
+  profile: chill
+  auto_review:
+    enabled: true
